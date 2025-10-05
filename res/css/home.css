@@ -1,3 +1,5 @@
+/* Author: Joosep Tiger Tilgar */
+
 * {
     font-family: sans-serif;
 }
@@ -9,7 +11,6 @@ body {
     margin: 0;
     position: relative;
     background-color: rgb(203, 187, 159);
-    /*background: linear-gradient(to bottom, #925454 0%, #925454 200px, transparent 200px);*/
 }
 
 .gradient-layer {
@@ -35,9 +36,8 @@ body {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    align-self: auto;
-    /*max-width: 1000px;*/
-    max-width: 100%;
+    align-self: center;
+    max-width: 1000px;
 }
 
 #header {
@@ -108,8 +108,11 @@ body {
 }
 
 .text-post {
-    font-size: 30px;
-    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80px;
+    margin: 20px;
     text-align: justify;
     vertical-align: middle;
     transition: all 0.3s ease;
@@ -118,9 +121,13 @@ body {
     margin-bottom: 0;
 }
 
-.text-header, .text-post, .text-date {
+.text-header, .text-post, .text-date, .text-reaction, .text-post-italic {
     font-family: 'American Typewriter', serif;
     color: white;
+}
+
+.text-link-first, .text-link-second {
+    font-family: 'American Typewriter', serif;
 }
 
 #header:hover {
@@ -178,7 +185,7 @@ body {
 
 .sidebar {
     flex: 1;
-    max-width: 20vw;
+    max-width: 100%;
     padding: 10px;
     background-color: rgb(203, 187, 159);
     border-radius: 5px;
@@ -198,9 +205,38 @@ body {
 }
 
 .post-text-div {
+    width: 100%;
     margin-top: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     overflow-y: auto;
+}
+
+.post-text-div > p { /*child selector*/
+    font-size: 30px;
+    line-height: 1.5;
+}
+
+.text-post-italic {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80px;
+    margin: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    font-size: 30px;
+    line-height: 1.5;
+    text-align: justify;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+    transform-origin: center center;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.text-post ~ .text-post-italic { /*general sibling example*/
+    font-style: italic;
 }
 
 .post:hover {
@@ -241,15 +277,6 @@ body {
     margin-right: 20px;
     text-align: right;
     transition: flex-basis 0.3s ease;
-    /*
-    display: flex;
-    justify-content: right;
-    vertical-align: middle;
-    width: 70%;
-    padding: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
-    */
 }
 
 .post-image-div {
@@ -271,16 +298,6 @@ body {
     padding: 0;
     border-radius: 30px;
     display: block;
-    /*
-    height: 500px;
-    width: 100%;
-    object-fit: cover;
-    padding: 0px;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    */
 }
 
 .image-profile {
@@ -293,15 +310,57 @@ body {
     width: 100px;
 }
 
-.text-post {
-    /*flex: 1;*/
+.reaction-div {
+    flex-wrap: wrap;
+    width: 100%;
+    height: fit-content;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 80px;
-    margin: 20px;
+    justify-content: space-evenly;
+    background-color: #925454;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+@media (max-width: 200px) {
+    .reaction-div {
+        flex-direction: column;
+    }
+    .reaction-set {
+        justify-content: center;
+    }
+}
+
+.reaction-set {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    flex: 0 1 80px;
+    gap: 10px;
+}
+
+.text-reaction {
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: justify;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+    transform-origin: center center;
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.reaction {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    padding: 0;
+    display: block;
+    margin-left: 10px;
+    margin-right: 10px;
+    filter: brightness(0) saturate(100%) invert(1);
+    flex: 1 1;
 }
 
 #footer {
@@ -310,4 +369,45 @@ body {
     background-color: #9d9b7e;
     text-align: left;
     box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.5);
+}
+
+.text-link-first {
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: justify;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+    transform-origin: center center;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white;
+}
+
+.text-link-second {
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: justify;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+    transform-origin: center center;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white;
+}
+
+#footer ul {
+  list-style: none;
+  margin-top: 30px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+#footer li {
+  display: inline-block;
+}
+
+#footer li:first-child + li a { /*valib teise <li> sees oleva <a>, mis tuleb esimese <li> järel*/
+    color: red;
 }
