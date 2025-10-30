@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Post</title>
+  <link rel="stylesheet" href="res/css/addPost.css" />
+</head>
+<body>
+  <div class="gradient-layer"></div>
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/tabTemplate.ico">
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>Home</title>
-  </head>
 
-  <div id="header">
-        <div id="header-button-div">
-            <a class="button-header" href="index.html"><p class="text-header">Home</p></a>
-        </div>
-        <div class="header-profile-picture">
-            <img class="image-profile" src="images/profilePic.png" alt="My picture">
-        </div>
-    </div>
+  <header id="header">
+    <ul class="nav">
+      <li><a href="index.html">Home</a></li>
+    </ul>
+    <img src="images/profilePic.png" alt="User icon" class="user-icon" />
+  </header>
 
-  <body>
 
-  </body>
+  <section id="first-section">
+    <form id="form" action="index.html" method="get">
+  <h1>Create a Post</h1>
 
+  <label for="post-body">Post body</label>
+  <textarea id="post-body" rows="5" cols="30" placeholder="Your post goes here..."></textarea>
+
+  <label for="file-upload">Select file</label>
+  <input type="file" id="file-upload" />
+
+  <button type="submit">Create post</button>
+</form>
+
+  </section>
+</body>
 </html>
