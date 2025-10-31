@@ -26,13 +26,13 @@ body {
 
 .content-div {
     display: flex;
-    flex: 1;
     flex-direction: row;
     margin-top: 90px;
 }
 
 #content {
     flex: 2;
+    /*flex-basis: 600px;*/
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -99,12 +99,12 @@ body {
     text-overflow: ellipsis;
     */
 
-    font-size: 35px;
     overflow: hidden;
     text-align: right;
-    text-overflow: ellipsis;
+    white-space: nowrap;
+    /*text-overflow: ellipsis;*/
     /*max-width: 100%;*/
-    font-size: clamp(10px, 15vw, 35px);
+    font-size: clamp(10px, 25px, 25px);
 }
 
 .text-post {
@@ -121,7 +121,27 @@ body {
     margin-bottom: 0;
 }
 
-.text-header, .text-post, .text-date, .text-reaction, .text-post-italic {
+.post-username {
+    flex: 1 0;
+    max-height: fit-content;
+    min-width: 30%;
+    max-width: 100%;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+    transition: flex-basis 0.3s ease;
+}
+
+.text-post-username {
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    /*max-width: 100%;*/
+    font-size: clamp(10px, 20px, 20px);
+}
+
+.text-header, .text-post-username, .text-post, .text-date, .text-reaction, .text-post-italic {
     font-family: 'American Typewriter', serif;
     color: white;
 }
@@ -163,13 +183,17 @@ body {
 }
 
 
-@media (max-aspect-ratio: 1 / 1.2) {
+@media (max-width: 650px) {
     .content-div {
         flex-direction: column;
     }
     .sidebar, .content {
         flex: 1; /*igaüks võtab kogu laiuse*/
     }
+    .content {
+        min-width: 50px;
+    }
+
 }
 
 @media (max-width: 500px) {
@@ -249,30 +273,47 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    min-height: 80px;
+    min-height: fit-content;
+    max-height: fit-content;
     margin-bottom: 0px;
 }
 
-@media (min-width: 1000px) {
+@media (max-width: 450px) {
     .post-header-div {
         flex-direction: row;
         justify-content: space-between;
+    }
+    .post-date {
+        margin-top: 0px;
+    }
+    .post-username {
+        margin-top: 0px;
+    }
+    .text-date {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .text-post-username {
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 }
 
 .profile-picture {
     flex: 1;
-
-    height: 100%;
-    width: fit-content;
+    height: 80px;
+    max-width: fit-content;
     object-fit: cover;
-    padding: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .post-date {
-    flex: 1 0 auto;
-    min-width: 50%;
+    flex: 1 0;
+    max-height: fit-content;
+    min-width: 30%;
     max-width: 100%;
+    margin-top: 15px;
     margin-left: 20px;
     margin-right: 20px;
     text-align: right;
