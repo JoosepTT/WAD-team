@@ -1,17 +1,22 @@
 async function loadMenu() {
-    const response = await fetch('../html/menu.html');
-    const html = await response.text();
+    let name = "Maria Saar"; // to be replaced with existing user
+    let email = "maria.saar@ut.ee";
+    const html = `
+        <body>
+            <header id="menu">
+            <ul>
+                <li>${name}</li>
+                <li>${email}</li>
+                <li><a href="">Logout</a></li>
+            </ul>
+            </header>
+        </body>`;
     const header = document.getElementById('header');
     header.insertAdjacentHTML('afterend', html);
     const avatar = document.getElementById('image-profile');
     const menu = document.getElementById('menu');
     const offset = header.offsetHeight;
     menu.style.top = `calc(${offset}px - 0.8em)`;
-
-    const name = menu.querySelector('li:nth-child(1)');
-    const email = menu.querySelector('li:nth-child(2)');
-    name.textContent = "Maria Saar", // to be replaced with existing user
-    email.textContent = "maria.saar@ut.ee";
 
     avatar.addEventListener('click', (e) => {
         e.stopPropagation();
