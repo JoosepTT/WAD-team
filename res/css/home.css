@@ -172,6 +172,10 @@ body {
     margin-left: 50px;
 }
 
+#header-button-div a{
+    text-decoration: none;
+}
+
 .button-header {
     margin-left: 30px;
     margin-right: 30px;

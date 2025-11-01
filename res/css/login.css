@@ -5,13 +5,17 @@
 body{
     background-color: rgb(203, 187, 159);
     display: flex;
-    direction: column;
     justify-content: center;
 }
 
 .image-profile {
     width: 2cm;
     height: 2cm;
+    transition: all 0.3s ease;
+}
+
+.image-profile:hover {
+    transform: scale(1.1);
 }
 
 .gradient-layer {
