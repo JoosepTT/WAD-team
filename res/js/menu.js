@@ -2,15 +2,13 @@ async function loadMenu() {
     let name = "Maria Saar"; // to be replaced with existing user
     let email = "maria.saar@ut.ee";
     const html = `
-        <body>
-            <header id="menu">
+        <header id="menu">
             <ul>
                 <li>${name}</li>
                 <li>${email}</li>
                 <li><a href="">Logout</a></li>
             </ul>
-            </header>
-        </body>`;
+        </header>`;
     const header = document.getElementById('header');
     header.insertAdjacentHTML('afterend', html);
     const avatar = document.getElementById('image-profile');
