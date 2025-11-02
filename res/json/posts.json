@@ -80,9 +80,9 @@
     "id": 8,
     "author": "Mihkel Meelis Peetrus",
     "date": "2024-10-24T00:00:00Z",
-    "text-content": "Bruh",
+    "text-content": "This sentence is false!",
     "image": "",
-    "likes": 13,
+    "likes": 10,
     "comments": 0,
     "bookmarks": 0,
     "comment-child-id": 0
@@ -91,10 +91,10 @@
     "id": 9,
     "author": "Sara Sepp",
     "date": "2024-10-24T00:00:00Z",
-    "text-content": "Bruh",
+    "text-content": "This website is awesome! The next Facebook!",
     "image": "",
-    "likes": 0,
-    "comments": 0,
+    "likes": 2,
+    "comments": 1,
     "bookmarks": 0,
     "comment-child-id": 0
   },
@@ -102,11 +102,11 @@
     "id": 10,
     "author": "Kelli Mihkelson",
     "date": "2024-10-24T00:00:00Z",
-    "text-content": "Bruh",
+    "text-content": "Does anyone know any good recipes for birthday cakes?",
     "image": "",
-    "likes": 13,
-    "comments": 0,
-    "bookmarks": 0,
+    "likes": 2,
+    "comments": 5,
+    "bookmarks": 1,
     "comment-child-id": 0
   }
 ]
