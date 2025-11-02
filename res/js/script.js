@@ -1,7 +1,7 @@
 // Author: Joosep Tiger Tilgar
 
 // # online JSON (Task 4)
-// const endpoint = "https://api.jsonbin.io/v3/b/6903c81c43b1c97be98cd866";
+const endpoint = "https://api.jsonbin.io/v3/b/6903c81c43b1c97be98cd866";
 
 // # local JSON (Task 5)
 const localData = "../json/posts.json";
@@ -10,17 +10,20 @@ const localData = "../json/posts.json";
 async function loadPosts() {
     try {
         // --- online fetch (task 4) ---
-        // const response = await fetch(endpoint);
-        // const jsonData = await response.json();
-        // const posts = jsonData.record || jsonData;
+        /*
+        const response = await fetch(endpoint);
+        const jsonData = await response.json();
+        const posts = jsonData.record || jsonData;
+        */
 
         // --- local fetch (task 5) ---
         const response = await fetch(localData);
         const jsonData = await response.json();
+        const posts = jsonData;
 
         // checking if local storage has any new posts from addPost.html
         const storedPosts = JSON.parse(localStorage.getItem("newPosts")) || [];
-        const allPosts = [...jsonData, ... storedPosts]; // combining posts to create on object
+        const allPosts = [...posts, ... storedPosts]; // combining posts to create on object
 
         renderPosts(allPosts);
 
@@ -62,9 +65,9 @@ function renderPosts(posts) {
                 </div>
         
                 ${post.image ? `
-                  <div class="post-image-div">
-                    <img class="image" src="${post.image}" alt="Post image">
-                  </div>` : ""}
+                <div class="post-image-div">
+                    <img class="image" src="${post.image.startsWith('data:image') ? post.image : `data:image/jpeg;base64,${post.image}`}" alt="Post image">
+                </div>` : ""}
         
                 <div class="post-text-div">
                   <p class="text-post">${post["text-content"]}</p>
