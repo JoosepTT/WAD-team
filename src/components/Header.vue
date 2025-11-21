@@ -107,6 +107,7 @@ export default {
 #menu {
     position: fixed;
     right: 0;
+    top: 5.5em;
     background-color: #7c4545;
     border-radius: .5em;
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.8);
