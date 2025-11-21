@@ -54,6 +54,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
+    height: 1.25em;
     align-items: center;
     justify-content: flex-end;
     backdrop-filter: blur(10px);
@@ -61,12 +62,11 @@ export default {
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
     z-index: 100;
     font-size: 2.5em;
-    padding: 0em 0em; /* header height*/
+    padding: 0.5em 0em;
 }
 
 #header > ul {
     list-style: none;
-    margin: 0em;
     gap: 0.5em;
 }
 
@@ -77,12 +77,11 @@ export default {
 }
 
 .nav p {
-    padding: 0em .5em; /* header elements padding */
+    padding: 0em .5em;
     color: white;
     font-family: 'American Typewriter';
     display: inline-block;
     transition: all 0.3s ease;
-    margin: 0.6em 0em;
 }
 
 #header:hover {
@@ -108,7 +107,7 @@ export default {
 #menu {
     position: fixed;
     right: 0;
-    top: 5.5em;
+    top: 5em;
     background-color: #7c4545;
     border-radius: .5em;
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.8);
@@ -116,10 +115,6 @@ export default {
     text-align: left;
     min-width: 10em;
     color: rgb(230, 228, 228);
-}
-
-#menu.active {
-    display: flex;
 }
 
 #menu > ul {
@@ -140,11 +135,5 @@ export default {
 #menu > ul > li > a:hover {
     text-decoration: underline;
     color: rgb(230, 228, 228);
-}
-
-@media (max-width: 1000px) {
-    #header {
-        flex-direction: column;
-    }
 }
 </style>
