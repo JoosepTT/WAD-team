@@ -95,8 +95,8 @@ export default {
 }
 
 #image-profile {
-    width: 2cm;
-    height: 2cm;
+    width: 8vh;
+    height: 8vh;
     transition: all 0.3s ease;
 }
 
@@ -107,7 +107,6 @@ export default {
 #menu {
     position: fixed;
     right: 0;
-    top: 5em;
     background-color: #7c4545;
     border-radius: .5em;
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.8);

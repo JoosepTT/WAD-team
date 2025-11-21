@@ -11,5 +11,6 @@
 
 body {
   background-color: rgb(203, 187, 159);
+  margin: 0em;
 }
 </style>

@@ -15,10 +15,6 @@ export default {
 
 <style scoped>
 #footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     padding: 0.5em;
     align-content: center;
     background-color: #9d9b7e;
@@ -36,7 +32,6 @@ export default {
 #footer ul a {
     font-size: 1.5em;
     transition: all 0.3s ease;
-    transform-origin: center center;
     color: white;
 }
 </style>
