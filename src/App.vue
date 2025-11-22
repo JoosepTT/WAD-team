@@ -18,6 +18,11 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: rgb(203, 187, 159);
+  margin: 0em;
+}
+
 #app {
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,11 +31,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding-top: 6em;
-  min-height: calc(100vh - 6em); /* the footer should be always in the bottom */
-}
-
-body {
-  background-color: rgb(203, 187, 159);
-  margin: 0em;
+  min-height: calc(100vh - 6em); /* the footer should always be in the bottom */
 }
 </style>
