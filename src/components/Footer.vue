@@ -31,7 +31,6 @@ export default {
 
 #footer ul a {
     font-size: 1.5em;
-    transition: all 0.3s ease;
     color: white;
 }
 </style>
