@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped> /* scoped ensures that styles don't leak into other components */
 #gradient-layer {
     position: absolute;
     top: 0;
@@ -91,7 +91,7 @@ export default {
 
 #header p:hover {
     transform: scale(1.2);
-    color: #74e2fb;
+    color: #eadb9f;
 }
 
 #image-profile {

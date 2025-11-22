@@ -1,63 +1,74 @@
 <template>
-  <div class="content-div">
-      <div class="sidebar"></div>
-      <div id="content">
-        <button id="reset-likes-btn" @click="resetAll">Reset all likes to 0</button>
-        <PostCard v-for="post in posts" :key="post.id" :post="post"/>
+  <div class="post">
+    <div class="post-header-div">
+      <div class="profile-picture">
+        <img class="image-profile" src="../assets/profilePic.png" alt="Profile">
       </div>
-      <div class="sidebar"></div>
+      <div class="post-username">
+        <p class="text-post-username">{{ post.author }}</p>
+      </div>
+      <div class="post-date">
+        <p class="text-date">{{ formattedDate }}</p>
+      </div>
+    </div>
+
+    <div v-if="post.image" class="post-image-div">
+      <img class="image" :src="imageSrc" alt="Post image">
+    </div>
+
+    <div class="post-text-div">
+      <p class="text-post">{{ post['text-content'] || post.text_content }}</p>
+    </div>
+
+    <div class="reaction-div">
+      <div class="reaction-set" @click="like">
+        <img class="post-reaction" :src="likeIcon" width="30" height="30" alt="Like">
+        <p class="text-reaction">{{ post.likes }}</p>
+      </div>
+      <div class="reaction-set">
+        <img class="post-reaction" src="../assets/comment_off.png" width="30" height="30" alt="Comment">
+        <p class="text-reaction">{{ post.comments }}</p>
+      </div>
+      <div class="reaction-set">
+        <img class="post-reaction" src="../assets/bookmark_on.png" width="30" height="30" alt="Bookmark">
+        <p class="text-reaction">{{ post.bookmarks }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
-import PostCard from '@/components/PostCard.vue'
+  import { computed } from 'vue'
+  import { useStore } from 'vuex'
+  import heartOn from '@/assets/heart_on.png'
+  import heartOff from '@/assets/heart_off.png'
 
-const store = useStore()
-const posts = computed(() => store.getters.allPosts)
+  const props = defineProps({ post: Object })
+  const store = useStore()
 
-// loads posts while loading the page
-onMounted(() => {
-  if (store.state.posts.length === 0) {
-    store.dispatch('loadPosts')
+  const formattedDate = computed(() => {
+    return new Date(props.post.date).toLocaleDateString('et-EE', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    })
+  })
+
+  const imageSrc = computed(() => {
+    if (!props.post.image) return ''
+    return props.post.image.startsWith('data:')
+        ? props.post.image
+        : `data:image/jpeg;base64,${props.post.image}`
+  })
+
+  const likeIcon = computed(() =>
+      props.post.likes > 0 ? heartOn : heartOff
+  )
+
+  const like = () => {
+    store.dispatch('likePost', props.post.id)
   }
-})
-
-const resetAll = () => {
-  store.dispatch('resetAllLikes')
-}
-
-/*
-import { mapGetters } from 'vuex'
-
-export default {
-  name: 'HomeView',
-  components: { PostCard },
-  computed: {...mapGetters(['allPosts']), posts() { return this.allPosts }},
-  created() {
-    this.$store.dispatch('loadPosts')
-  }
-}
-*/
 </script>
 
 <style scoped>
-
-#reset-likes-btn {
-  margin: 1rem 0;
-  padding: 0.8rem 1.5rem;
-  background: #925454;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-#reset-likes-btn:hover {
-  background: #a56666;
-}
-
 * {
   font-family: sans-serif;
 }
@@ -85,7 +96,7 @@ body {
 .content-div {
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: 90px;
 }
 
 #content {
@@ -515,4 +526,3 @@ body {
   color: red;
 }
 </style>
-}
