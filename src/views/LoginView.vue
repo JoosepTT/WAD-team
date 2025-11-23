@@ -48,9 +48,9 @@ const message = ref('')
 
 const passwordRules = [
   { test: pw => pw.length >= 8 && pw.length < 15, message: '8-14 characters' },
-  { test: pw => /^[A-Z]/.test(pw), message: 'Starts with uppercase' },
-  { test: pw => (pw.match(/[A-Z]/g) || []).length >= 1, message: 'At least 1 uppercase' },
-  { test: pw => (pw.match(/[a-z]/g) || []).length >= 2, message: 'At least 2 lowercase' },
+  { test: pw => /^[A-Z]/.test(pw), message: 'Starts with uppercase letter' },
+  { test: pw => (pw.match(/[A-Z]/g) || []).length >= 1, message: 'At least 1 uppercase letter' },
+  { test: pw => (pw.match(/[a-z]/g) || []).length >= 2, message: 'At least 2 lowercase letters' },
   { test: pw => /[0-9]/.test(pw), message: 'At least 1 number' },
   { test: pw => pw.includes('_'), message: 'Includes "_"' },
 ]
