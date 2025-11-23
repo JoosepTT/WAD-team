@@ -17,7 +17,7 @@
     </div>
 
     <div class="post-text-div">
-      <p class="text-post">{{ post['text-content'] || post.text_content }}</p>
+      <p class="text-post">{{ post['text-content'] }}</p>
     </div>
 
     <div class="reaction-div">
@@ -188,6 +188,7 @@ body {
   transform-origin: center center;
   margin-top: 0;
   margin-bottom: 0;
+  white-space: pre-wrap;
 }
 
 .post-username {
