@@ -1,3 +1,76 @@
+<template>
+  <div class="add-post-page">
+    <div class="gradient-layer"></div>
+
+    <div id="first-section">
+      <form id="form" @submit.prevent="createPost">
+        <h1>Create a Post</h1>
+
+        <label for="post-body">Post body</label>
+        <textarea
+            id="post-body"
+            v-model="text"
+            rows="5"
+            placeholder="Your post goes here..."
+            required
+        ></textarea>
+
+        <label for="file-upload">Select image (optional)</label>
+        <input type="file" id="file-upload" accept="image/*" @change="onFileChange" />
+
+        <button type="submit">Create post</button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
+const store = useStore()
+const router = useRouter()
+
+const text = ref('')
+const imageFile = ref(null)
+
+const onFileChange = (e) => {
+  imageFile.value = e.target.files[0] || null
+}
+
+const toBase64 = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => resolve(reader.result)
+  reader.onerror = reject
+})
+
+const createPost = async () => {
+  if (!text.value.trim()) return alert('Postitus ei tohi olla tühi!')
+
+  let imageBase64 = ''
+  if (imageFile.value) {
+    imageBase64 = await toBase64(imageFile.value)
+  }
+
+  const newPost = {
+    id: Date.now(),
+    author: "Maria Saar",
+    date: new Date().toISOString(),
+    'text-content': text.value.trim(),
+    image: imageBase64 || null,
+    likes: 0,
+    comments: 0,
+    bookmarks: 0
+  }
+
+  store.dispatch('addNewPost', newPost)
+  router.push('/') // returns to main page
+}
+</script>
+
+<style scoped>
 * {
   font-family: sans-serif;
 }
@@ -31,13 +104,13 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
   backdrop-filter: blur(10px);
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
   z-index: 100;
-  font-size: 2.2em; 
-  padding: 0.9em 1.3em; 
+  font-size: 2.2em;
+  padding: 0.9em 1.3em;
   box-sizing: border-box;
   overflow: visible;
 }
@@ -79,7 +152,7 @@ body {
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  margin-left: auto; 
+  margin-left: auto;
   background-color: #d9d9d9;
   border: 0px solid rgba(255, 255, 255, 0.3);
   transition: transform 0.3s ease, border-color 0.3s ease;
@@ -166,3 +239,4 @@ body {
     padding: 0.5em 0;
   }
 }
+</style>

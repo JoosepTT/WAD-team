@@ -1,0 +1,529 @@
+<template>
+  <div class="post">
+    <div class="post-header-div">
+      <div class="profile-picture">
+        <img class="image-profile" src="../assets/profilePic.png" alt="Profile">
+      </div>
+      <div class="post-username">
+        <p class="text-post-username">{{ post.author }}</p>
+      </div>
+      <div class="post-date">
+        <p class="text-date">{{ formattedDate }}</p>
+      </div>
+    </div>
+
+    <div v-if="post.image" class="post-image-div">
+      <img class="image" :src="imageSrc" alt="Post image">
+    </div>
+
+    <div class="post-text-div">
+      <p class="text-post">{{ post['text-content'] }}</p>
+    </div>
+
+    <div class="reaction-div">
+      <div class="reaction-set" @click="like">
+        <img class="post-reaction" :src="likeIcon" width="30" height="30" alt="Like">
+        <p class="text-reaction">{{ post.likes }}</p>
+      </div>
+      <div class="reaction-set">
+        <img class="post-reaction" src="../assets/comment_off.png" width="30" height="30" alt="Comment">
+        <p class="text-reaction">{{ post.comments }}</p>
+      </div>
+      <div class="reaction-set">
+        <img class="post-reaction" src="../assets/bookmark_on.png" width="30" height="30" alt="Bookmark">
+        <p class="text-reaction">{{ post.bookmarks }}</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+  import { computed } from 'vue'
+  import { useStore } from 'vuex'
+  import heartOn from '@/assets/heart_on.png'
+  import heartOff from '@/assets/heart_off.png'
+
+  const props = defineProps({ post: Object })
+  const store = useStore()
+
+  const formattedDate = computed(() => {
+    return new Date(props.post.date).toLocaleDateString('et-EE', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    })
+  })
+
+  const imageSrc = computed(() => {
+    if (!props.post.image) return ''
+    return props.post.image.startsWith('data:')
+        ? props.post.image
+        : `data:image/jpeg;base64,${props.post.image}`
+  })
+
+  const likeIcon = computed(() =>
+      props.post.likes > 0 ? heartOn : heartOff
+  )
+
+  const like = () => {
+    store.dispatch('likePost', props.post.id)
+  }
+</script>
+
+<style scoped>
+* {
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  position: relative;
+  background-color: rgb(203, 187, 159);
+}
+
+.gradient-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500px;
+  background: linear-gradient(to bottom, #925454 0%, transparent 100%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.content-div {
+  display: flex;
+  flex-direction: row;
+  margin-top: 90px;
+}
+
+#content {
+  flex: 2;
+  /*flex-basis: 600px;*/
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  max-width: 1000px;
+}
+
+#header {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: fit-content;
+  width: 100%;
+  padding-top: .5em;
+  padding-bottom: .5em;
+  align-items: center;
+  justify-content: space-between; /*hoiab alamelemendid vastu servi*/
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border-bottom: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
+  z-index: 100;
+}
+
+.header-button {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(100, 100 ,100, 0.3);
+  border-right: 1px solid rgb(100, 100 ,100, 0.3);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.text-header {
+  font-size: 40px;
+  text-align: justify;
+  /*vertical-align: middle;*/
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.text-date {
+  /*
+  font-size: clamp(10px, 4vw, 35px);
+  text-align: justify;
+  text-align: right;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 10px;
+  margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  */
+
+  overflow: hidden;
+  text-align: right;
+  white-space: nowrap;
+  /*text-overflow: ellipsis;*/
+  /*max-width: 100%;*/
+  font-size: clamp(10px, 25px, 25px);
+}
+
+.text-post {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80px;
+  margin: 20px;
+  text-align: justify;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 0;
+  margin-bottom: 0;
+  white-space: pre-wrap;
+}
+
+.post-username {
+  flex: 1 0;
+  max-height: fit-content;
+  min-width: 30%;
+  max-width: 100%;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: left;
+  transition: flex-basis 0.3s ease;
+}
+
+.text-post-username {
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  /*max-width: 100%;*/
+  font-size: clamp(10px, 20px, 20px);
+}
+
+.text-header, .text-post-username, .text-post, .text-date, .text-reaction, .text-post-italic {
+  font-family: 'American Typewriter', serif;
+  color: white;
+}
+
+.text-link-first, .text-link-second {
+  font-family: 'American Typewriter', serif;
+}
+
+#header:hover {
+  background-color: rgba(94, 64, 64, 0.2);
+  backdrop-filter: blur(20px);
+}
+
+.button-header:hover .text-header {
+  /*padding-bottom: 2px;*/
+  transform: scale(1.2);
+}
+
+.button-header:hover {
+  background-color: rgba(60, 43, 43, 0.2);
+}
+
+#header-button-div {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  height: fit-content;
+  margin-left: 50px;
+}
+
+#header-button-div a{
+  text-decoration: none;
+}
+
+.button-header {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.header-profile-picture {
+  margin-right: 10px;
+  height: 100%;
+}
+
+
+@media (max-width: 650px) {
+  .content-div {
+    flex-direction: column;
+  }
+  .sidebar, .content {
+    flex: 1; /*igaüks võtab kogu laiuse*/
+  }
+  .content {
+    min-width: 50px;
+  }
+
+}
+
+@media (max-width: 500px) {
+  #header {
+    flex-direction: column;
+    justify-content: center;
+    height: fit-content;
+  }
+  #header-button-div {
+    margin-left: 0px;
+  }
+}
+
+.sidebar {
+  flex: 1;
+  max-width: 100%;
+  padding: 10px;
+  background-color: rgb(203, 187, 159);
+  border-radius: 5px;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #925454;
+  box-shadow: -20px 0 40px rgba(0, 0, 0, 0.3), 20px 0 40px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  z-index: 50;
+}
+
+.post-text-div {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  overflow-y: auto;
+}
+
+.post-text-div > p { /*child selector*/
+  font-size: 30px;
+  line-height: 1.5;
+}
+
+.text-post-italic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80px;
+  margin: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  font-size: 30px;
+  line-height: 1.5;
+  text-align: justify;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.text-post ~ .text-post-italic { /*general sibling example*/
+  font-style: italic;
+}
+
+.post:hover {
+  transform: scale(1.01);
+  filter: brightness(1.05);
+}
+
+.post-header-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: fit-content;
+  max-height: fit-content;
+  margin-bottom: 0px;
+}
+
+@media (max-width: 450px) {
+  .post-header-div {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .post-date {
+    margin-top: 0px;
+  }
+  .post-username {
+    margin-top: 0px;
+  }
+  .text-date {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .text-post-username {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+.profile-picture {
+  flex: 1;
+  height: 80px;
+  max-width: fit-content;
+  object-fit: cover;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.post-date {
+  flex: 1 0;
+  max-height: fit-content;
+  min-width: 30%;
+  max-width: 100%;
+  margin-top: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: right;
+  transition: flex-basis 0.3s ease;
+}
+
+.post-image-div {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  flex: 1 1 40%;
+  height: 40vh;
+  background-color: #925454;
+  margin: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0;
+  border-radius: 30px;
+  display: block;
+}
+
+.image-profile {
+  height: 80px;
+  width: 80px;
+}
+
+.image-profile-header {
+  height: 100px;
+  width: 100px;
+}
+
+.reaction-div {
+  flex-wrap: wrap;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #925454;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 200px) {
+  .reaction-div {
+    flex-direction: column;
+  }
+  .reaction-set {
+    justify-content: center;
+  }
+}
+
+.reaction-set {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  flex: 0 1 80px;
+  gap: 10px;
+}
+
+.text-reaction {
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: justify;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.reaction {
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
+  padding: 0;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+  filter: brightness(0) saturate(100%) invert(1);
+  flex: 1 1;
+}
+
+#footer {
+  height: 10vh;
+  padding: 10px;
+  background-color: #9d9b7e;
+  text-align: left;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.5);
+}
+
+.text-link-first {
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: justify;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: white;
+}
+
+.text-link-second {
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: justify;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: white;
+}
+
+#footer ul {
+  list-style: none;
+  margin-top: 30px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+#footer li {
+  display: inline-block;
+}
+
+#footer li:first-child + li a { /*valib teise <li> sees oleva <a>, mis tuleb esimese <li> järel*/
+  color: red;
+}
+</style>
