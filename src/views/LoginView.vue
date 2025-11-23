@@ -1,152 +1,132 @@
+<template>
+  <div class="signup-bg">
+    <div class="signup">
+      <h1>Sign Up</h1>
+      <form @submit.prevent="onSubmit" novalidate>
+        <div class="field">
+          <label for="username">E-mail</label>
+          <input id="username" v-model="username" type="email" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            v-model="password"
+            type="password"
+            @blur="passwordTouched = true"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+
+        <div class="validation" v-if="passwordTouched" aria-live="polite">
+          <p v-if="checks.isValid" class="valid">Password is valid.</p>
+          <p v-else class="invalid">
+            The password is not valid:
+            <ul>
+              <li v-for="(rule, index) in checks.unmet" :key="index">{{ rule }}</li>
+            </ul>
+          </p>
+        </div>
+
+        <button type="submit" :disabled="!checks.isValid">Sign Up</button>
+      </form>
+
+      <p class="message" v-if="message">{{ message }}</p>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref, computed } from 'vue'
 
-const email = ref('')
+const username = ref('')
 const password = ref('')
 const passwordTouched = ref(false)
 const message = ref('')
 
+const passwordRules = [
+  { test: pw => pw.length >= 8 && pw.length < 15, message: '8-14 characters' },
+  { test: pw => /^[A-Z]/.test(pw), message: 'Starts with uppercase' },
+  { test: pw => (pw.match(/[A-Z]/g) || []).length >= 1, message: 'At least 1 uppercase' },
+  { test: pw => (pw.match(/[a-z]/g) || []).length >= 2, message: 'At least 2 lowercase' },
+  { test: pw => /[0-9]/.test(pw), message: 'At least 1 number' },
+  { test: pw => pw.includes('_'), message: 'Includes "_"' },
+]
+
 const checks = computed(() => {
-	const pw = password.value || ''
-	const lengthOK = pw.length >= 8 && pw.length < 15
-	const startsWithUpper = /^[A-Z]/.test(pw)
-	const hasUpper = /[A-Z]/.test(pw)
-	const lowerMatches = pw.match(/[a-z]/g) || []
-	const hasTwoLower = lowerMatches.length >= 2
-	const hasNumber = /[0-9]/.test(pw)
-	const hasUnderscore = pw.includes('_')
-
-	const unmet = []
-	if (!lengthOK) unmet.push('The password should be at least 8 characters and less than 15 characters')
-	if (!hasUpper) unmet.push('Includes at least one uppercase alphabet character')
-	if (!hasTwoLower) unmet.push('Includes at least two lowercase alphabet characters')
-	if (!hasNumber) unmet.push('Includes at least one numeric value')
-	if (!startsWithUpper) unmet.push('It should start with an uppercase alphabet')
-	if (!hasUnderscore) unmet.push('It should include the character "_"')
-
-	return {
-		lengthOK,
-		hasUpper,
-		hasTwoLower,
-		hasNumber,
-		startsWithUpper,
-		hasUnderscore,
-		unmet,
-		isValid: unmet.length === 0 && pw.length > 0,
-	}
+  const pw = password.value || ''
+  const unmet = passwordRules.filter(rule => !rule.test(pw)).map(rule => rule.message)
+  return { unmet, isValid: unmet.length === 0 && pw.length > 0 }
 })
 
-const isValid = computed(() => checks.value.isValid)
-
-function onInput() {
-	passwordTouched.value = true
-}
-
 function onSubmit() {
-	passwordTouched.value = true
-	if (!isValid.value) return
-	// In a real app, submit the form here.
-	message.value = `Signup successful for ${email.value || 'user'}`
+  passwordTouched.value = true
+  if (!checks.value.isValid) return
+  message.value = `Signup successful for ${username.value || 'user'}`
 }
 </script>
 
-<template>
-	<div class="signup">
-		min-height: 60vh;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-family: Arial, Helvetica, sans-serif;
-					<label for="password">Password</label>
-	.card {
-		background: #eef6e8;
-		padding: 22px 26px;
-		border-radius: 12px;
-		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-		min-width: 320px;
-		max-width: 520px;
-	}
-	.form-grid {
-		display: grid;
-		grid-template-columns: 1fr 2fr;
-		gap: 12px 18px;
-		align-items: center;
-		margin-bottom: 12px;
-	}
-	label {
-		text-align: right;
-		padding-right: 8px;
-		font-weight: 600;
-	}
-	input[type="text"],
-	input[type="password"] {
-		padding: 10px 12px;
-		font-size: 14px;
-		border: 1px solid #cfcfcf;
-		border-radius: 8px;
-	}
-	.validation {
-		margin-bottom: 12px;
-		text-align: center;
-	}
-
-		<p class="message" v-if="message">{{ message }}</p>
-	</div>
-</template>
-
 <style scoped>
+
+
 .signup {
-	max-width: 420px;
-	.center-btn {
-		display: block;
-		margin: 10px auto 0 auto;
-		background: #5b9bd5;
-		color: white;
-		border: none;
-		padding: 10px 28px;
-		border-radius: 16px;
-		font-weight: 700;
-	}
-	.center-btn[disabled] {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-	.message {
-		margin-top: 12px;
-		color: #0055aa;
-		text-align: center;
-	}
-	display: flex;
-	flex-direction: column;
+  max-width: 420px;
+  margin: 24px auto;
+  padding: 18px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: rgba(255, 255, 255, 0.55);
 }
+
+.field {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
 label {
-	margin-bottom: 6px;
-	font-weight: 600;
+  margin-bottom: 6px;
+  font-weight: 600;
 }
+
 input[type="text"],
+input[type="email"],
 input[type="password"] {
-	padding: 8px 10px;
-	font-size: 14px;
-	border: 1px solid #bbb;
-	border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
 }
+
+input:focus {
+  border-color: #0055aa;
+  outline: none;
+}
+
 .validation {
-	margin-bottom: 12px;
+  margin-bottom: 12px;
 }
+
 .invalid {
-	color: #000000;
-	font-weight: 600;
+  color: #b00020;
+  font-weight: 600;
 }
+
 .valid {
-	color: #0a7a0a;
-	font-weight: 600;
+  color: #0a7a0a;
+  font-weight: 600;
 }
+
 button[disabled] {
-	opacity: 0.5;
-	cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
+
 .message {
-	margin-top: 12px;
-	color: #0055aa;
+  margin-top: 12px;
+  color: #0055aa;
 }
 </style>
