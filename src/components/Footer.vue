@@ -1,5 +1,11 @@
 <template>
     <div id="footer">
+        <ul id="copyright">
+            <li>© 2025 WAD team:</li>
+            <li>Joosep Tiger Tilgar</li>
+            <li>Ilja Toropov</li>
+            <li>Ken Parijõgi</li>
+        </ul>
         <ul>
             <li><a class="text-link-first" href="https://ois2.ut.ee/" target="_blank">OIS</a></li>
             <li><a class="text-link-second" href="https://courses.cs.ut.ee/" target="_blank">Courses</a></li>
@@ -15,6 +21,7 @@ export default {
 
 <style scoped>
 #footer {
+    position: relative;
     padding: 0.5em;
     align-content: center;
     background-color: #9d9b7e;
@@ -29,8 +36,18 @@ export default {
     gap: 2em;
 }
 
-#footer ul a {
+#footer > ul a {
     font-size: 1.5em;
     color: white;
+}
+
+#copyright {
+    position: absolute;
+    gap: 0em;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8em;
+    top: 50%; 
+    transform: translateY(-50%);
 }
 </style>
