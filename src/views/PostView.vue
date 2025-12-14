@@ -29,13 +29,15 @@ import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
+// variables
 const store = useStore()
 const router = useRouter()
 
+// reactive variables
 const text = ref('')
 const imageFile = ref(null)
 
-const onFileChange = (e) => {
+const onFileChange = (e) => { // if user selects an image
   imageFile.value = e.target.files[0] || null
 }
 
@@ -46,7 +48,7 @@ const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = reject
 })
 
-const createPost = async () => {
+const createPost = async () => { // when the form is submitted
   if (!text.value.trim()) return alert('Postitus ei tohi olla tühi!')
 
   let imageBase64 = ''
@@ -65,7 +67,7 @@ const createPost = async () => {
     bookmarks: 0
   }
 
-  store.dispatch('addNewPost', newPost)
+  store.dispatch('addNewPost', newPost) // forwards new post to vuex action to be forwarded to the global array
   router.push('/') // returns to main page
 }
 </script>

@@ -2,7 +2,8 @@
   <div class="content-div">
       <div class="sidebar"></div>
       <div id="content">
-        <button id="reset-likes-btn" @click="resetAll">Reset all likes to 0</button>
+        <button id="log-out-btn" @click="logOut">log out</button>
+        <button id="delete-posts-btn" @click="deletePosts">delete all posts</button>
         <PostCard v-for="post in posts" :key="post.id" :post="post"/>
       </div>
       <div class="sidebar"></div>
@@ -12,34 +13,33 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import PostCard from '@/components/PostCard.vue'
+import { useRouter } from 'vue-router'
+import PostCard from '@/components/PostCard.vue' // imports post component
 
-const store = useStore()
-const posts = computed(() => store.getters.allPosts)
+const store = useStore() // variable which can be used with getters or dispacth
+const router = useRouter()
 
-// loads posts while loading the page
+const posts = computed(() => store.getters.allPosts) // when posts in vuex change, the page is updated automatically
+
+const logOut = () => {
+  // Eeldades, et auth on olemas, puhasta store ja suuna login'i
+  store.commit('clearAccount') // Lisa see mutatsioon store'i, kui vaja
+  router.push('/LoginView')
+}
+
+const deletePosts = async () => {
+  if (confirm('Kas oled kindel, et tahad kõik postitused kustutada?')) {
+    const currentPosts = store.getters.allPosts
+    for (const post of currentPosts) {
+      await fetch(`http://localhost:3000/api/posts/${post.id}`, { method: 'DELETE' })
+    }
+    store.commit('setPosts', []) // Puhasta store
+  }
+}
+
 onMounted(() => {
-  if (store.state.posts.length === 0) {
-    store.dispatch('loadPosts')
-  }
+  store.dispatch('fetchPosts') // Laadi postitused Vuex action'iga
 })
-
-const resetAll = () => {
-  store.dispatch('resetAllLikes')
-}
-
-/*
-import { mapGetters } from 'vuex'
-
-export default {
-  name: 'HomeView',
-  components: { PostCard },
-  computed: {...mapGetters(['allPosts']), posts() { return this.allPosts }},
-  created() {
-    this.$store.dispatch('loadPosts')
-  }
-}
-*/
 </script>
 
 <style scoped>
