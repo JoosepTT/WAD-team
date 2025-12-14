@@ -28,14 +28,7 @@ const logOut = async () => {
 
 const deletePosts = async () => {
   if (confirm('Are you sure you want to delete ALL posts?')) {
-    const currentPosts = store.getters.allPosts
-    for (const post of currentPosts) {
-      await fetch(`http://localhost:3000/api/posts/${post.id}`, {
-        method: 'DELETE', 
-        credentials: true 
-      })
-    }
-    store.commit('setPosts', []) // Puhasta store
+    await store.dispatch('deletePosts')
   }
 }
 

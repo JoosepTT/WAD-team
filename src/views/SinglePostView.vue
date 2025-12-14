@@ -67,7 +67,7 @@ export default {
       // using Fetch - delete method - delets a specific post based on the passed id
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
         method: "DELETE",
-        credentials: true,
+        credentials: 'include',
         headers: { "Content-Type": "application/json" },
       })
         .then((response) => {

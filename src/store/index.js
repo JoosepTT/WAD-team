@@ -8,7 +8,7 @@ export default createStore({
   },
   getters: {
     allPosts: (state) => {
-      return [...state.posts].sort((a, b) => new Date(b.date) - new Date(a.date)) // Sorteeri uuem eespool
+      return state.posts // Sorteeri uuem eespool
     },
     getAccount: (state) => {
       return state.account
@@ -38,9 +38,20 @@ export default createStore({
     },
     async fetchPosts({ commit }) {
       try {
-        const response = await fetch('http://localhost:3000/api/posts/', { credentials: true })
+        const response = await fetch('http://localhost:3000/api/posts', { credentials: 'include' })
         const data = await response.json()
         commit('setPosts', data)
+      } catch (err) {
+        console.log(err.message)
+      }
+    },
+    async deletePosts({ commit }) {
+      try {
+        await fetch('http://localhost:3000/api/posts', {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+        commit('setPosts', [])
       } catch (err) {
         console.log(err.message)
       }
@@ -60,7 +71,6 @@ export default createStore({
           email: data.email,
           username: data.username
         })
-        console.log(this.state.account)
         return true
       } catch (err) {
         return false
