@@ -1,7 +1,7 @@
 <template>
   <div class="signup-bg">
     <div class="signup">
-      <h1>Login</h1>
+      <h1>Sign Up</h1>
       <form @submit.prevent="onSubmit" novalidate>
         <div class="field">
           <label for="email">E-mail</label>
@@ -19,6 +19,11 @@
             required
           />
         </div>
+        
+        <div class="field">
+          <label for="username">User name</label>
+          <input id="username" v-model="username" type="text" required />
+        </div>
 
         <div class="validation" v-if="passwordTouched" aria-live="polite">
           <p v-if="checks.isValid" class="valid">Password is valid.</p>
@@ -30,8 +35,7 @@
           </p>
         </div>
 
-        <button type="submit" :disabled="!checks.isValid">Log In</button>
-        <button type="button" class="secondary-btn" @click="toSignUp"> Sign Up</button>
+        <button type="submit" :disabled="!checks.isValid">Sign Up</button>
       </form>
 
       <p class="message" v-if="message">{{ message }}</p>
@@ -42,9 +46,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
 
-const store = useStore()
 const router = useRouter()
 const email = ref('')
 const password = ref('')
@@ -69,15 +71,18 @@ const checks = computed(() => {
 async function onSubmit() {
   passwordTouched.value = true
   if (!checks.value.isValid) return
-  const success = await store.dispatch('logIn', {
-    email: email.value,
-    password: password.value
-  })
-  if (success) router.push('/')
-}
-
-function toSignUp() {
-  router.push('/SignUpView')
+  try {
+    const res = await fetch('http://localhost:3000/api/signup', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value, password: password.value, username: username.value })
+    })
+    message.value = `Signup successful for ${username.value || 'user'}`
+    router.push('/')
+  } catch (err) {
+    message.value = 'Signup failed'
+  }
 }
 </script>
 
@@ -90,7 +95,6 @@ function toSignUp() {
   border-radius: 6px;
   font-family: Arial, Helvetica, sans-serif;
   background: rgba(255, 255, 255, 0.55);
-  z-index: 100;
 }
 
 .field {
@@ -104,6 +108,7 @@ label {
   font-weight: 600;
 }
 
+input[type="text"],
 input[type="email"],
 input[type="password"] {
   padding: 8px 10px;

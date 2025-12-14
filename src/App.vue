@@ -1,7 +1,7 @@
 <template>
   <Header/>
   <router-view/> <!-- mount point for active page (like HomeView for example) -->
-  <router-link to="/api/AddPostView" id="floating-create-btn" v-if="$route.path === '/' || $route.name === 'HomeView'"> <!-- v-if shows the button only on the main page (/) -->
+  <router-link to="/AddPostView" id="floating-create-btn" v-if="$route.path === '/' || $route.name === 'HomeView'"> <!-- v-if shows the button only on the main page (/) -->
     <img :src="writeIcon" alt="Create post" width="50" height="50" class="plus-icon" />
   </router-link>
   <Footer/>

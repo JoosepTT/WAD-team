@@ -21,23 +21,27 @@ const router = useRouter()
 
 const posts = computed(() => store.getters.allPosts) // when posts in vuex change, the page is updated automatically
 
-const logOut = () => {
-  // Eeldades, et auth on olemas, puhasta store ja suuna login'i
-  store.commit('clearAccount') // Lisa see mutatsioon store'i, kui vaja
+const logOut = async () => {
+  await store.dispatch('logOut')
   router.push('/LoginView')
 }
 
 const deletePosts = async () => {
-  if (confirm('Kas oled kindel, et tahad kõik postitused kustutada?')) {
+  if (confirm('Are you sure you want to delete ALL posts?')) {
     const currentPosts = store.getters.allPosts
     for (const post of currentPosts) {
-      await fetch(`http://localhost:3000/api/posts/${post.id}`, { method: 'DELETE' })
+      await fetch(`http://localhost:3000/api/posts/${post.id}`, {
+        method: 'DELETE', 
+        credentials: true 
+      })
     }
     store.commit('setPosts', []) // Puhasta store
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const authenticated = await store.dispatch('authenticate')
+  if (!authenticated) router.push('/LoginView')
   store.dispatch('fetchPosts') // Laadi postitused Vuex action'iga
 })
 </script>

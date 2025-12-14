@@ -34,10 +34,12 @@ export default {
         title: this.post.title,
         body: this.post.body,
         urllink: this.post.urllink,
+        user_id: this.$store.getters.getAccount.id
       };
       // using Fetch - post method - send an HTTP post request to the specified URI with the defined body
       fetch("http://localhost:3000/api/posts", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -56,6 +58,10 @@ export default {
         console.log("error");
       });
     },
+  },
+  async mounted() {
+    const authenticated = await this.$store.dispatch('authenticate')
+    if (!authenticated) router.push('/LoginView')
   },
 };
 </script>

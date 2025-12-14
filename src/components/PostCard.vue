@@ -1,5 +1,5 @@
 <template>
-  <router-link class="post" :to="'/api/SinglePostView/' + post.id">
+  <router-link class="post" :to="'/SinglePostView/' + post.id">
     <div class="post-header-div">
       <div class="profile-picture">
         <img class="image-profile" src="../assets/profilePic.png" alt="Profile">

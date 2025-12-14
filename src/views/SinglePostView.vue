@@ -38,7 +38,7 @@ export default {
   methods: {
     fetchAPost(id) {
       // fetch one post with the specied id (id)
-      fetch(`http://localhost:3000/api/posts/${id}`)
+      fetch(`http://localhost:3000/api/posts/${id}`, { credentials: true })
         .then((response) => response.json())
         .then((data) => (this.post = data))
         .catch((err) => console.log(err.message));
@@ -47,6 +47,7 @@ export default {
       // using Fetch - put method - updates a specific post based on the passed id and the specified body
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
         method: "PUT",
+        credentials: true,
         headers: {
           "Content-Type": "application/json",
         },
@@ -66,6 +67,7 @@ export default {
       // using Fetch - delete method - delets a specific post based on the passed id
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
         method: "DELETE",
+        credentials: true,
         headers: { "Content-Type": "application/json" },
       })
         .then((response) => {
@@ -79,6 +81,7 @@ export default {
     },
   },
   mounted() {
+    if (!store.authenticate()) router.push('/LoginView')
     // call fetchAPost() when this element mounts, and pass to it a route parameter  (id)
     // Route parameters (this.$route.params.id) are named URL segments that are used to capture the values specified at their 
     // position in the URL. The captured values are populated in the req.params object, with the name 

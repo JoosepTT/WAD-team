@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AddPostView from '../views/AddPostView.vue'
 import SinglePostView from '../views/SinglePostView.vue'
+import SignUpView from '../views/SignUpView.vue'
 import LoginView from '../views/LoginView.vue'
 
 const routes = [
@@ -12,18 +13,23 @@ const routes = [
             import ("../views/HomeView.vue")
     },
     {
-      path: '/api/AddPostView',
+      path: '/AddPostView',
       name: 'AddPostView',
       component: AddPostView
     },
     {
-        path: "/api/SinglePostView/:id",
-        name: "SinglePostView",
-        component: SinglePostView,
+      path: "/SinglePostView/:id",
+      name: "SinglePostView",
+      component: SinglePostView,
+    },
+    {
+      path: '/SignUpView',
+      name: 'SignUp', 
+      component: SignUpView
     },
     {
       path: '/LoginView',
-      name: 'LoginView', 
+      name: 'Login',
       component: LoginView
     },
     { //will route to AllPosts view if none of the previous routes apply

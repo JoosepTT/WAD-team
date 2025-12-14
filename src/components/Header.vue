@@ -3,15 +3,14 @@
     <header id="header">
         <ul class="nav">
             <li><router-link to="/"> <p>Home</p> </router-link></li>
-            <li><router-link to="/contacts"> <p>Sign up</p> </router-link></li>
+            <li><router-link to="/LoginView"> <p>Login</p> </router-link></li>
         </ul>
         <img id="image-profile" @click="toggleMenu" src="../assets/profilePic.png" alt="My picture">
     </header>
     <div id="menu" v-if="menuVisible">
         <ul>
-            <li>{{ account.userName }}</li>
-            <li>{{ account.userEmail }}</li>
-            <li><router-link to="/"> <p>Logout</p> </router-link></li>
+            <li>{{ account.username }}</li>
+            <li>{{ account.email }}</li>
         </ul>
     </div>
 </template>
