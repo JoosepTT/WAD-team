@@ -55,12 +55,12 @@ export default createStore({
       })
         const data = await res.json()
         if (!res.ok) return false
-        console.log(data)
         commit('setAccount', {
           id: data.id,
           email: data.email,
           username: data.username
         })
+        console.log(this.state.account)
         return true
       } catch (err) {
         return false
