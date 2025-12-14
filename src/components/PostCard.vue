@@ -1,72 +1,49 @@
 <template>
-  <div class="post">
+  <router-link class="post" :to="'/api/SinglePostView/' + post.id">
     <div class="post-header-div">
       <div class="profile-picture">
         <img class="image-profile" src="../assets/profilePic.png" alt="Profile">
       </div>
       <div class="post-username">
-        <p class="text-post-username">{{ post.author }}</p>
+        <p class="text-post-username">{{ post.author || 'unknown author' }}</p> <!-- from vue store, currently not fetched from database -->
       </div>
       <div class="post-date">
-        <p class="text-date">{{ formattedDate }}</p>
+        <p class="text-date">{{ formattedDate }}</p> <!-- extra field fetched from database -->
       </div>
     </div>
 
-    <div v-if="post.image" class="post-image-div">
-      <img class="image" :src="imageSrc" alt="Post image">
+    <div class="post-title">
+      <p class="post-title-text">{{ post.title }}</p>
     </div>
 
     <div class="post-text-div">
-      <p class="text-post">{{ post['text-content'] }}</p>
+      <p class="text-post">{{ post.body }}</p>
     </div>
 
-    <div class="reaction-div">
-      <div class="reaction-set" @click="like">
-        <img class="post-reaction" :src="likeIcon" width="30" height="30" alt="Like">
-        <p class="text-reaction">{{ post.likes }}</p>
-      </div>
-      <div class="reaction-set">
-        <img class="post-reaction" src="../assets/comment_off.png" width="30" height="30" alt="Comment">
-        <p class="text-reaction">{{ post.comments }}</p>
-      </div>
-      <div class="reaction-set">
-        <img class="post-reaction" src="../assets/bookmark_on.png" width="30" height="30" alt="Bookmark">
-        <p class="text-reaction">{{ post.bookmarks }}</p>
-      </div>
+    <div class="post-link">
+      <p class="link">{{ post.urllink }}</p>
     </div>
-  </div>
+
+  </router-link>
 </template>
 
+
 <script setup>
-  import { computed } from 'vue'
-  import { useStore } from 'vuex'
-  import heartOn from '@/assets/heart_on.png'
-  import heartOff from '@/assets/heart_off.png'
+import { computed } from 'vue' // computed properties which update themselves automatically, if the data changes
+import { useStore } from 'vuex'
 
-  const props = defineProps({ post: Object })
-  const store = useStore()
+const props = defineProps({ post: Object })
+const store = useStore() // Kui autor puudub postis, võiks võtta store'ist, nt props.post.author = store.state.account.userName
 
-  const formattedDate = computed(() => {
-    return new Date(props.post.date).toLocaleDateString('et-EE', {
-      month: 'short', day: 'numeric', year: 'numeric'
-    })
+const formattedDate = computed(() => {
+  return new Date(props.post.date).toLocaleDateString('et-EE', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
   })
-
-  const imageSrc = computed(() => {
-    if (!props.post.image) return ''
-    return props.post.image.startsWith('data:')
-        ? props.post.image
-        : `data:image/jpeg;base64,${props.post.image}`
-  })
-
-  const likeIcon = computed(() =>
-      props.post.likes > 0 ? heartOn : heartOff
-  )
-
-  const like = () => {
-    store.dispatch('likePost', props.post.id)
-  }
+})
 </script>
+
 
 <style scoped>
 * {
