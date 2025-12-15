@@ -90,6 +90,10 @@ body {
   max-width: 1000px;
 }
 
+.post {
+  text-decoration: none;
+}
+
 #header {
   display: flex;
   flex-direction: row;
