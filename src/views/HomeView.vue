@@ -2,9 +2,8 @@
   <div class="content-div">
       <div class="sidebar"></div>
       <div id="content">
-        <button id="log-out-btn" @click="logOut">log out</button>
-        <button id="delete-posts-btn" @click="deletePosts">delete all posts</button>
         <PostCard v-for="post in posts" :key="post.id" :post="post"/>
+        <button id="delete-posts-btn" @click="deletePosts">delete all posts</button>
       </div>
       <div class="sidebar"></div>
   </div>
@@ -21,11 +20,6 @@ const router = useRouter()
 
 const posts = computed(() => store.getters.allPosts) // when posts in vuex change, the page is updated automatically
 
-const logOut = async () => {
-  await store.dispatch('logOut')
-  router.push('/LoginView')
-}
-
 const deletePosts = async () => {
   if (confirm('Are you sure you want to delete ALL posts?')) {
     await store.dispatch('deletePosts')
@@ -41,7 +35,12 @@ onMounted(async () => {
 
 <style scoped>
 
-#reset-likes-btn {
+* {
+  font-family: sans-serif;
+}
+
+
+#content button {
   margin: 1rem 0;
   padding: 0.8rem 1.5rem;
   background: #925454;
@@ -51,12 +50,8 @@ onMounted(async () => {
   font-size: 1rem;
   cursor: pointer;
 }
-#reset-likes-btn:hover {
+#content button:hover {
   background: #a56666;
-}
-
-* {
-  font-family: sans-serif;
 }
 
 body {

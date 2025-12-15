@@ -3,7 +3,7 @@
     <header id="header">
         <ul class="nav">
             <li><router-link to="/"> <p>Home</p> </router-link></li>
-            <li><router-link to="/LoginView"> <p>Login</p> </router-link></li>
+            <li><router-link to="/Contacts"> <p>Contacts</p> </router-link></li>
         </ul>
         <img id="image-profile" @click="toggleMenu" src="../assets/profilePic.png" alt="My picture">
     </header>
@@ -11,6 +11,7 @@
         <ul>
             <li>{{ account.username }}</li>
             <li>{{ account.email }}</li>
+            <li><button id="log-out-btn" @click="logOut">log out</button></li>
         </ul>
     </div>
 </template>
@@ -29,6 +30,10 @@ export default {
   methods: {
     toggleMenu() {
       this.menuVisible = !this.menuVisible;
+    },
+    async logOut()  {
+        await this.$store.dispatch('logOut')
+        router.push('/LoginView')
     }
   }
 };
@@ -126,13 +131,17 @@ export default {
     margin: .6em 0em;
 }
 
-#menu > ul > li > a {
+#menu > ul > li > button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: white;
     text-decoration: none;
-    color: rgb(230, 228, 228);
+    font: inherit;
 }
 
-#menu > ul > li > a:hover {
-    text-decoration: underline;
-    color: rgb(230, 228, 228);
+#menu > ul > li > button:hover {
+    text-decoration: underline; /* можно оставить подчеркивание */
 }
 </style>

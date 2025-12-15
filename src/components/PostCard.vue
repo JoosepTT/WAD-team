@@ -5,7 +5,7 @@
         <img class="image-profile" src="../assets/profilePic.png" alt="Profile">
       </div>
       <div class="post-username">
-        <p class="text-post-username">{{ post.author || 'unknown author' }}</p> <!-- from vue store, currently not fetched from database -->
+        <p class="text-post-username">{{ post.username || 'unknown author' }}</p> <!-- from vue store, currently not fetched from database -->
       </div>
       <div class="post-date">
         <p class="text-date">{{ formattedDate }}</p> <!-- extra field fetched from database -->
