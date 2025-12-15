@@ -3,7 +3,7 @@
     <header id="header">
         <ul class="nav">
             <li><router-link to="/"> <p>Home</p> </router-link></li>
-            <li><router-link to="/Contacts"> <p>Contacts</p> </router-link></li>
+            <li><router-link to="/ContactsView"> <p>Contacts</p> </router-link></li>
         </ul>
         <img id="image-profile" @click="toggleMenu" src="../assets/profilePic.png" alt="My picture">
     </header>

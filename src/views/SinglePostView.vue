@@ -4,25 +4,29 @@
 -->
 
 <template>
-  <div class="A Post">
+  <div class="single-post">
     <div id="form">
-      <h3>A Post</h3>
+      <h3>Edit Post</h3>
       <label for="title">Title: </label>
-      <input name="type" type="text" id="title" required v-model="post.title" />
+      <input type="text" id="title" v-model="post.title" required />
+
       <label for="body">Body: </label>
-      <input name="body" type="text" id="body" required v-model="post.body" />
+      <input type="text" id="body" v-model="post.body" required />
+
       <label for="url">Url: </label>
-      <input name="url" type="text" id="url" required v-model="post.urllink" />
-    </div>
-    <div>
-      <button @click="updatePost" class="updatePost">Update Post</button>
-      <button @click="deletePost" class="deletePost">Delete Post</button>
+      <input type="text" id="url" v-model="post.urllink" />
+
+      <div class="buttons">
+        <button @click="updatePost" class="updatePost">Update Post</button>
+        <button @click="deletePost" class="deletePost">Delete Post</button>
+      </div>
     </div>
   </div>
 </template>
 
-
 <script>
+import { useRouter } from 'vue-router'
+
 export default {
   name: "SinglePostView",
   data() {
@@ -36,61 +40,82 @@ export default {
     };
   },
   methods: {
-    fetchAPost(id) {
-      // fetch one post with the specied id (id)
-      fetch(`http://localhost:3000/api/posts/${id}`, { credentials: true })
-        .then((response) => response.json())
-        .then((data) => (this.post = data))
-        .catch((err) => console.log(err.message));
-    },
-    updatePost() {
-      // using Fetch - put method - updates a specific post based on the passed id and the specified body
-      fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
-        method: "PUT",
-        credentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.post),
-      })
-        .then((response) => {
-          console.log(response.data);
-          //this.$router.push("/apost/" + this.post.id);
-          // We are using the router instance of this element to navigate to a different URL location
-          this.$router.push("/api/allposts");
-        })
-        .catch((e) => {
-          console.log(e);
+    async fetchAPost(id) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts/${id}`, {
+          credentials: 'include'
         });
+        if (!response.ok) throw new Error('Post not found');
+        const data = await response.json();
+        this.post = data;
+      } catch (err) {
+        console.error(err);
+        this.$router.push('/'); // tagasi pealehele kui viga
+      }
     },
-    deletePost() {
-      // using Fetch - delete method - delets a specific post based on the passed id
-      fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
-        method: "DELETE",
-        credentials: 'include',
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((response) => {
-          console.log(response.data);
-          // We are using the router instance of this element to navigate to a different URL location
-          this.$router.push("/api/allposts");
-        })
-        .catch((e) => {
-          console.log(e);
+
+    async updatePost() {
+      try {
+        // Saada AINULT need väljad, mida backend ootab
+        const updateData = {
+          title: this.post.title,
+          body: this.post.body,
+          urllink: this.post.urllink
+        };
+
+        const response = await fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
+          method: "PUT",
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateData),
         });
+
+        if (!response.ok) {
+          const error = await response.json();
+          alert("Uuendamine ebaõnnestus: " + (error.error || "Tundmatu viga"));
+          return;
+        }
+
+        alert("Postitus uuendatud!");
+        this.$router.push("/"); // tagasi pealehele
+      } catch (e) {
+        console.error(e);
+        alert("Viga uuendamisel");
+      }
+    },
+
+    async deletePost() {
+      if (!confirm("Kas oled kindel, et tahad postituse kustutada?")) return;
+
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
+          method: "DELETE",
+          credentials: 'include',
+        });
+
+        if (!response.ok) throw new Error("Kustutamine ebaõnnestus");
+
+        alert("Postitus kustutatud!");
+        this.$router.push("/");
+      } catch (e) {
+        console.error(e);
+        alert("Kustutamine ebaõnnestus");
+      }
     },
   },
+
   async mounted() {
-    const authenticated = await this.$store.dispatch('authenticate')
-    if (!authenticated) router.push('/LoginView')
-    // call fetchAPost() when this element mounts, and pass to it a route parameter  (id)
-    // Route parameters (this.$route.params.id) are named URL segments that are used to capture the values specified at their 
-    // position in the URL. The captured values are populated in the req.params object, with the name 
-    // of the route parameter specified in the path as their respective keys
+    // Lihtne autentimise kontroll (kui sul on store)
+    // const authenticated = await this.$store.dispatch('authenticate');
+    // if (!authenticated) this.$router.push('/LoginView');
+
     this.fetchAPost(this.$route.params.id);
-  },
+  }
 };
 </script>
+
 
 <style scoped>
 #form {

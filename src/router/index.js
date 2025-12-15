@@ -4,6 +4,7 @@ import AddPostView from '../views/AddPostView.vue'
 import SinglePostView from '../views/SinglePostView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import LoginView from '../views/LoginView.vue'
+import ContactsView from '../views/ContactsView.vue'
 
 const routes = [
     {
@@ -31,6 +32,11 @@ const routes = [
       path: '/LoginView',
       name: 'Login',
       component: LoginView
+    },
+    {
+      path: '/ContactsView',
+      name: 'ContactsView',
+      component: ContactsView
     },
     { //will route to AllPosts view if none of the previous routes apply
       path: '/:catchAll(.*)',
