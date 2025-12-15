@@ -74,6 +74,7 @@ async function onSubmit() {
     password: password.value
   })
   if (success) router.push('/')
+  else message.value = 'Incorrect email or password'
 }
 
 function toSignUp() {
