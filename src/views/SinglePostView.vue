@@ -80,8 +80,9 @@ export default {
         });
     },
   },
-  mounted() {
-    if (!store.authenticate()) router.push('/LoginView')
+  async mounted() {
+    const authenticated = await this.$store.dispatch('authenticate')
+    if (!authenticated) router.push('/LoginView')
     // call fetchAPost() when this element mounts, and pass to it a route parameter  (id)
     // Route parameters (this.$route.params.id) are named URL segments that are used to capture the values specified at their 
     // position in the URL. The captured values are populated in the req.params object, with the name 
