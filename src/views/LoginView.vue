@@ -21,8 +21,7 @@
         </div>
 
         <div class="validation" v-if="passwordTouched" aria-live="polite">
-          <p v-if="checks.isValid" class="valid">Password is valid.</p>
-          <p v-else class="invalid">
+          <p v-if="!checks.isValid" class="invalid">
             The password is not valid:
             <ul>
               <li v-for="(rule, index) in checks.unmet" :key="index">{{ rule }}</li>
@@ -124,11 +123,6 @@ input:focus {
 
 .invalid {
   color: #b00020;
-  font-weight: 600;
-}
-
-.valid {
-  color: #0a7a0a;
   font-weight: 600;
 }
 
