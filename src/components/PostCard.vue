@@ -13,7 +13,7 @@
     </div>
 
     <div class="post-title">
-      <p class="post-title-text">{{ post.title }}</p>
+      <p class="text-post-title">{{ post.title }}</p>
     </div>
 
     <div class="post-text-div">
@@ -21,7 +21,7 @@
     </div>
 
     <div class="post-link">
-      <p class="link">{{ post.urllink }}</p>
+      <p class="text-post">{{ post.urllink }}</p>
     </div>
 
   </router-link>
@@ -168,6 +168,24 @@ body {
   white-space: pre-wrap;
 }
 
+.text-post-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80px;
+  margin: 20px;
+  text-align: justify;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+  margin-top: 0;
+  margin-bottom: 0;
+  white-space: pre-wrap;
+  font-size: 35px;
+  line-height: 1.4;
+  font-weight: bold;
+}
+
 .post-username {
   flex: 1 0;
   max-height: fit-content;
@@ -188,7 +206,7 @@ body {
   font-size: clamp(10px, 20px, 20px);
 }
 
-.text-header, .text-post-username, .text-post, .text-date, .text-reaction, .text-post-italic {
+.text-header, .text-post-username, .text-post, .text-date, .text-reaction, .text-post-italic, .text-post-title {
   font-family: 'American Typewriter', serif;
   color: white;
 }
