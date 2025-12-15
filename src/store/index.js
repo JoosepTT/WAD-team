@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   strict: true, // state can be changed only through mutations
   state: {
-    account: {},
+    account: null,
     posts: [],
   },
   getters: {
@@ -22,7 +22,7 @@ export default createStore({
       state.account = account
     },
     clearAccount(state) {
-      state.account = {}
+      state.account = null
     }
   },
   actions: {

@@ -29,11 +29,16 @@ export default {
   },
   methods: {
     toggleMenu() {
-      this.menuVisible = !this.menuVisible;
+        if (!this.$store.state.account) {
+            this.$router.push('/LoginView');
+            return;
+        }
+        this.menuVisible = !this.menuVisible;
     },
     async logOut()  {
+        this.menuVisible = false
         await this.$store.dispatch('logOut')
-        router.push('/LoginView')
+        this.$router.push('/LoginView')
     }
   }
 };

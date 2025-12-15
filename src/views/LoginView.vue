@@ -31,6 +31,7 @@
         </div>
 
         <button type="submit" :disabled="!checks.isValid">Log In</button>
+        <label> or </label>
         <button type="button" class="secondary-btn" @click="toSignUp"> Sign Up</button>
       </form>
 
